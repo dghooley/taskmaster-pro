@@ -119,6 +119,9 @@ $("#trash").droppable({
 $("#task-form-modal").on("show.bs.modal", function() {
   // clear values
   $("#modalTaskDescription, #modalDueDate").val("");
+  $("#modalDueDate").datepicker({
+    minDate: 1
+  });
 });
 
 // modal is fully visible
@@ -131,7 +134,8 @@ $("#task-form-modal").on("shown.bs.modal", function() {
 $("#task-form-modal .btn-primary").click(function() {
   // get form values
   var taskText = $("#modalTaskDescription").val();
-  var taskDate = $("#modalDueDate").val();
+  var taskDate = $("#modalDueDate").val(); 
+ 
 
   if (taskText && taskDate) {
     createTask(taskText, taskDate, "toDo");
@@ -150,18 +154,22 @@ $("#task-form-modal .btn-primary").click(function() {
 });
 
 // task text was clicked
-$(".list-group").on("click", "p", function() {
-  // get current text of p element
-  var text = $(this)
-    .text()
-    .trim();
+$(".list-group").on("click", "span", function() {
+  // get current text
+  var date = $(this).text().trim();
 
-  // replace p element with a new textarea
-  var textInput = $("<textarea>").addClass("form-control").val(text);
-  $(this).replaceWith(textInput);
+  // create new input element
+  var dateInput = $("<input>").attr("type", "text").addClass("form-control").val(date);
 
-  // auto focus new element
-  textInput.trigger("focus");
+  $(this).replaceWith(dateInput);
+
+  // enable jquery ui datepicker
+  dateInput.datepicker({
+    minDate: 1
+  });
+
+  // automatically bring up the date calendar
+  dateInput.trigger("focus");
 });
 
 // editable field was un-focused
