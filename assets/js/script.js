@@ -173,5 +173,26 @@ $("#remove-tasks").on("click", function() {
   saveTasks();
 });
 
-// load tasks for the first time
-loadTasks();
+$(".card .list-group").sortable({
+  connectWith: $(".card .list-group"),
+  scroll: false,
+  tolerance: "pointer",
+  helper: "clone",
+  activate: function(event) {
+    console.log("deactivate", this);
+  },
+  deactivate: function(event) {
+    console.log("deactivate", this);
+  },
+  over: function(event) {
+    console.log("out", event.target);
+  },
+
+  update: function(event) {
+$(this).children().each(function() {
+  console.log($(this));
+})
+  }
+})
+
+loadTasks()
